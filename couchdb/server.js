@@ -12,7 +12,7 @@ app.use(express.json());
 app.use(express.static('public'));
 
 // Configuración CouchDB
-const COUCHDB_URL = process.env.COUCHDB_URL || 'http://localhost:5984';
+const COUCHDB_URL = process.env.COUCHDB_URL || 'http://couchdb:5984';;
 const COUCHDB_USER = process.env.COUCHDB_USER || 'admin';
 const COUCHDB_PASSWORD = process.env.COUCHDB_PASSWORD || 'password123';
 
@@ -41,6 +41,20 @@ async function initDatabase() {
         }
         console.log(`⏳ Esperando 3 segundos antes del siguiente intento...`);
         await new Promise(resolve => setTimeout(resolve, 3000));
+      }
+    }
+
+    // Crear bases de datos del sistema para eliminar warnings
+    const systemDatabases = ['_users', '_replicator'];
+    for (const sysDb of systemDatabases) {
+      try {
+        await couch.db.get(sysDb);
+        console.log(`Base de datos del sistema '${sysDb}' ya existe`);
+      } catch (error) {
+        if (error.statusCode === 404) {
+          await couch.db.create(sysDb);
+          console.log(`✅ Base de datos del sistema '${sysDb}' creada`);
+        }
       }
     }
     
