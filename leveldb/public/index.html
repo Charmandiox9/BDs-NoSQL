@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prueba LevelDB</title>
+    <link href="./styles/style.css" rel="stylesheet">
+</head>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LevelDB Monitor</title>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🗄️ LevelDB Monitor</h1>
+            <p>Interfaz de gestión y monitoreo para LevelDB</p>
+        </header>
+        
+        <div class="stats" id="stats">
+            <div class="stat-card">
+                <h3>Total de Claves</h3>
+                <div class="value" id="totalKeys">-</div>
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <div class="panel">
+                <h2>📝 Nueva Entrada</h2>
+                <div id="message"></div>
+                
+                <div class="form-group">
+                    <label>Clave:</label>
+                    <input type="text" id="newKey" placeholder="ej: usuario:4">
+                </div>
+                
+                <div class="form-group">
+                    <label>Valor (JSON):</label>
+                    <textarea id="newValue" placeholder='{"nombre": "Juan", "edad": 30}'></textarea>
+                </div>
+                
+                <button onclick="addEntry()">Agregar</button>
+                <button onclick="clearForm()">Limpiar</button>
+                
+                <hr style="margin: 30px 0; border: none; border-top: 2px solid #eee;">
+                
+                <h2>🔍 Buscar</h2>
+                <div class="form-group">
+                    <label>Prefijo:</label>
+                    <input type="text" id="searchPrefix" placeholder="ej: usuario:">
+                </div>
+                <button onclick="searchByPrefix()">Buscar</button>
+                <button onclick="loadEntries()">Ver Todo</button>
+            </div>
+            
+            <div class="panel">
+                <h2>📚 Entradas</h2>
+                <div class="filter-bar">
+                    <input type="text" id="filterInput" placeholder="Filtrar por clave..." oninput="filterEntries()">
+                    <button onclick="loadEntries()">🔄 Actualizar</button>
+                </div>
+                <div class="entries-list" id="entriesList">
+                    <div class="loading">Cargando...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="./scripts/main.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+{
+  "name": "leveldb-demo",
+  "version": "1.0.0",
+  "description": "Prueba de LevelDB con interfaz web",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "level": "^8.0.0",
+    "express": "^4.18.2",
+    "cors": "^2.8.5"
+  }
+}
