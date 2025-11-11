@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  scylla:
+    image: scylladb/scylla:5.2
+    container_name: scylla-node
+    ports:
+      - "9042:9042"
+    command: --smp 1 --memory 750M --overprovisioned 1
+    healthcheck:
+      test: ["CMD", "cqlsh", "-e", "describe keyspaces"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - scylla-network
+
+  backend:
+    build: ./backend
+    container_name: scylla-backend
+    ports:
+      - "3000:3000"
+    environment:
+      - SCYLLA_HOSTS=scylla
+    depends_on:
+      scylla:
+        condition: service_healthy
+    networks:
+      - scylla-network
+
+  frontend:
+    build: ./frontend
+    container_name: scylla-frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+    networks:
+      - scylla-network
+
+networks:
+  scylla-network:
+    driver: bridge
