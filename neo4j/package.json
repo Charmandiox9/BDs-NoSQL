@@ -1,0 +1,15 @@
+{
+  "name": "neo4j-music-demo",
+  "version": "1.0.0",
+  "description": "Demo de Neo4j con relaciones musicales",
+  "main": "seed-database.js",
+  "scripts": {
+    "seed": "node seed-database.js"
+  },
+  "keywords": ["neo4j", "graph", "music"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "neo4j-driver": "^5.14.0"
+  }
+}

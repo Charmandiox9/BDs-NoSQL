@@ -29,22 +29,17 @@ async function initDatabase() {
     try {
       console.log(`🔄 Intentando conectar a ScyllaDB (intento ${retries + 1}/${maxRetries})...`);
       
-      // Conectar al cliente (sin keyspace específico primero)
+      // Conectar al cliente
       await client.connect();
-      console.log('✅ Conectado a ScyllaDB');
       
       // PRIMERO: Crear keyspace
-      console.log('📦 Creando keyspace crud_demo...');
       await client.execute(`
         CREATE KEYSPACE IF NOT EXISTS crud_demo
         WITH replication = {'class': 'SimpleStrategy', 'replication_factor': 1}
       `);
-      console.log('✅ Keyspace creado');
 
       // SEGUNDO: Usar el keyspace
-      console.log('🔄 Seleccionando keyspace...');
       await client.execute('USE crud_demo');
-      console.log('✅ Keyspace seleccionado');
 
       // TERCERO: Crear tabla de usuarios
       console.log('📋 Creando tabla users...');
@@ -57,9 +52,7 @@ async function initDatabase() {
           created_at TIMESTAMP
         )
       `);
-      console.log('✅ Tabla users creada');
 
-      console.log('🎉 Base de datos inicializada correctamente');
       return;
     } catch (error) {
       retries++;
